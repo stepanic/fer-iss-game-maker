@@ -8,6 +8,7 @@ namespace ISSProject.Models
 {
     public class GameContext
     {
+        public TimeSpan Duration { get; set; }
         public IList<Stimulus> StimulusList { get; set; }
 
         public GameContext()
