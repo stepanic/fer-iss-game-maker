@@ -12,6 +12,7 @@ namespace ISSProject.Models
         public string Label { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTme { get; set; }
+        public StimulusType Type { get; set; }
     }
 
     public enum StimulusType
