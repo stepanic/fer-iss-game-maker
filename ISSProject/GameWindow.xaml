@@ -1,8 +1,16 @@
 ﻿<Window x:Class="ISSProject.GameWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="GameWindow" Height="300" Width="300">
+        Title="GameWindow" WindowState="Maximized" WindowStyle="None">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="709*"/>
+            <ColumnDefinition Width="51*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="495*"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Column="1" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="51" Click="ButtonCloseAppClick">X</Button>
     </Grid>
 </Window>

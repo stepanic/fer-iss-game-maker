@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,6 +29,8 @@ namespace ISSProject
             _context = context;
             InitializeComponent();
         }
+
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -55,6 +59,16 @@ namespace ISSProject
                     }
                 }
             }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+        }
+
+        private void ButtonCloseAppClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
