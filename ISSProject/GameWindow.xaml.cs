@@ -15,59 +15,49 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ISSProject.Models;
 
-namespace ISSProject
-{
+namespace ISSProject {
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameWindow : Window
-    {
+    public partial class GameWindow : Window {
         private readonly GameContext _context;
 
-        public GameWindow(GameContext context)
-        {
+        public GameWindow(GameContext context) {
             _context = context;
             InitializeComponent();
-        }
 
+            this.Loaded += (sender, args) => {
+                // Try to position application to first non-primary monitor
+                if (Screen.AllScreens.Length >= 2) {
+                    var secondary = 0;
+                    for (int index = 0; index < Screen.AllScreens.Length; index++) {
+                        if (Screen.AllScreens[index].Primary) continue;
+                        secondary = index;
+                        break;
+                    }
 
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
-            // Try to position application to first non-primary monitor
-            if (Screen.AllScreens.Length >= 2)
-            {
-                var secondary = 0;
-                for (int index = 0; index < Screen.AllScreens.Length; index++)
-                {
-                    if (Screen.AllScreens[index].Primary) continue;
-                    secondary = index;
-                    break;
-                }
-
-                var screen = Screen.AllScreens[secondary];
-                if (screen != null)
-                {
-                    var area = screen.WorkingArea;
-                    if (!area.IsEmpty)
-                    {
-                        this.Left = area.Left;
-                        this.Top = area.Top;
-                        this.Width = area.Width;
-                        this.Height = area.Height;
-                        this.WindowState = WindowState.Maximized;
+                    var screen = Screen.AllScreens[secondary];
+                    if (screen != null) {
+                        var area = screen.WorkingArea;
+                        if (!area.IsEmpty) {
+                            this.Left = area.Left;
+                            this.Top = area.Top;
+                            this.Width = area.Width;
+                            this.Height = area.Height;
+                            this.WindowState = WindowState.Maximized;
+                        }
                     }
                 }
-            }
+            };
         }
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
+
+
+        protected override void OnClosing(CancelEventArgs e) {
             base.OnClosing(e);
         }
 
-        private void ButtonCloseAppClick(object sender, RoutedEventArgs e)
-        {
+        private void ButtonCloseAppClick(object sender, RoutedEventArgs e) {
             this.Close();
         }
     }
