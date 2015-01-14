@@ -25,32 +25,43 @@ namespace ISSProject {
         public GameWindow(GameContext context) {
             _context = context;
             InitializeComponent();
-
-            this.Loaded += (sender, args) => {
-                // Try to position application to first non-primary monitor
-                if (Screen.AllScreens.Length >= 2) {
-                    var secondary = 0;
-                    for (int index = 0; index < Screen.AllScreens.Length; index++) {
-                        if (Screen.AllScreens[index].Primary) continue;
-                        secondary = index;
-                        break;
-                    }
-
-                    var screen = Screen.AllScreens[secondary];
-                    if (screen != null) {
-                        var area = screen.WorkingArea;
-                        if (!area.IsEmpty) {
-                            this.Left = area.Left;
-                            this.Top = area.Top;
-                            this.Width = area.Width;
-                            this.Height = area.Height;
-                            this.WindowState = WindowState.Maximized;
-                        }
-                    }
-                }
-            };
+            this.Loaded += GameStarted;
         }
 
+        private void GameStarted(object sender, RoutedEventArgs e)
+        {
+            // Try to position application to first non-primary monitor
+            if (Screen.AllScreens.Length >= 2) {
+                var secondary = 0;
+                for (int index = 0; index < Screen.AllScreens.Length; index++) {
+                    if (Screen.AllScreens[index].Primary) continue;
+                    secondary = index;
+                    break;
+                }
+
+                var screen = Screen.AllScreens[secondary];
+                if (screen != null) {
+                    var area = screen.WorkingArea;
+                    if (!area.IsEmpty) {
+                        this.Left = area.Left;
+                        this.Top = area.Top;
+                        this.Width = area.Width;
+                        this.Height = area.Height;
+                        this.WindowState = WindowState.Maximized;
+                    }
+                }
+            }
+
+            var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += IntervalTickEvent;
+            // Every second interval
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+        }
+
+        private void IntervalTickEvent(object sender, EventArgs e) {
+
+        }
 
 
         protected override void OnClosing(CancelEventArgs e) {
