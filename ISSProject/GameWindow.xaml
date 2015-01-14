@@ -4,13 +4,45 @@
         Title="GameWindow"  WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="709*"/>
-            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32*"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="495*"/>
         </Grid.RowDefinitions>
-        <Button Grid.Column="1" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="51" Click="ButtonCloseAppClick">X</Button>
+        <Rectangle Grid.Column="0" Grid.ColumnSpan="3">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFBFBFB" Offset="0" />
+                    <GradientStop Color="#FFFBFBFB" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <TextBlock x:Name="TimeLabel"  Grid.Row="0" Grid.Column="1" Text="00:00:00" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90"  FontSize="24" FontFamily="Segoe UI Light" />
+        <Button Grid.Row="0" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Center"  Click="ButtonCloseAppClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="40" >
+            <Path Data="M0,0 L1,1 M0,1 L1,0" Stretch="Uniform" Stroke="Red" StrokeThickness="3"  Margin="10,8,10,6"/>
+        </Button>
+        <!--
+        Image container
+        -->
+        <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Stretch="UniformToFill" Visibility="Collapsed"/>
+        <!--
+        Media container
+        -->
+        <MediaElement Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Stretch="UniformToFill" Visibility="Collapsed"/>
+        <!--
+        Text container
+        -->
+        <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="55" FontFamily="Calibri" Visibility="Collapsed" Height="0" Margin="390,244,221,243" Width="0"/>
     </Grid>
 </Window>
