@@ -68,10 +68,10 @@ namespace ISSProject
                         this.Top = area.Top;
                         this.Width = area.Width;
                         this.Height = area.Height;
-                        this.WindowState = WindowState.Maximized;
                     }
                 }
             }
+            this.WindowState = WindowState.Maximized;
 
             // Start timer and dispatcher
             _dispatcher = new DispatcherTimer();
