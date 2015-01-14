@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using ISSProject.Models;
 
 namespace ISSProject {
@@ -21,16 +24,22 @@ namespace ISSProject {
     /// </summary>
     public partial class GameWindow : Window {
         private readonly GameContext _context;
+        private DispatcherTimer _dispatcher;
+
+        private readonly IList<Stimulus> _activeStimulus = new List<Stimulus>();
+        private int _ticks;
 
         public GameWindow(GameContext context) {
             _context = context;
+
             InitializeComponent();
             this.Loaded += GameStarted;
+
+
         }
 
-        private void GameStarted(object sender, RoutedEventArgs e)
-        {
-            // Try to position application to first non-primary monitor
+        private void GameStarted(object sender, RoutedEventArgs e) {
+            // Position game screen on the secondary monitor
             if (Screen.AllScreens.Length >= 2) {
                 var secondary = 0;
                 for (int index = 0; index < Screen.AllScreens.Length; index++) {
@@ -52,18 +61,72 @@ namespace ISSProject {
                 }
             }
 
-            var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += IntervalTickEvent;
-            // Every second interval
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            dispatcherTimer.Start();
+            // Start timer and dispatcher
+            _dispatcher = new DispatcherTimer();
+
+            _dispatcher.Tick += IntervalTickEvent;
+            _dispatcher.Interval = new TimeSpan(0, 0, 1);
+
+            _dispatcher.Start();
         }
 
         private void IntervalTickEvent(object sender, EventArgs e) {
+            var elapsedSpan = new TimeSpan(0,0, ++_ticks);
+            // Update time label
+            TimeLabel.Text = elapsedSpan.ToString(@"hh\:mm\:ss");
+
+            // Game ended event
+            if (elapsedSpan > _context.Duration) {
+                this.Close();
+                return;
+            }
+
+            #region End Finished Stimulus
+            var stimulusEndingOnThisTick = _activeStimulus.Where(x => x.EndTme == elapsedSpan);
+            foreach (var stimulus in stimulusEndingOnThisTick) {
+                // handle stimulus
+                switch (stimulus.Type) {
+                    case StimulusType.Image:
+                        break;
+                    case StimulusType.Sound:
+                        break;
+                    case StimulusType.Video:
+                        break;
+                    case StimulusType.Text:
+                        break;
+                    case StimulusType.Game:
+                        break;
+                }
+            } 
+            #endregion
+
+            #region Start New Stimulus
+            // Handle new starting stimulus
+            var stimulusStartingOnThisTick = _context.StimulusList.Where(x => x.StartTime == elapsedSpan);
+            foreach (var stimulus in stimulusStartingOnThisTick) {
+                // handle stimulus
+                switch (stimulus.Type) {
+                    case StimulusType.Image:
+                        break;
+                    case StimulusType.Sound:
+                        break;
+                    case StimulusType.Video:
+                        break;
+                    case StimulusType.Text:
+                        break;
+                    case StimulusType.Game:
+                        break;
+                }
+            } 
+            #endregion
+
+
+         
+
 
         }
 
-
+      
         protected override void OnClosing(CancelEventArgs e) {
             base.OnClosing(e);
         }
