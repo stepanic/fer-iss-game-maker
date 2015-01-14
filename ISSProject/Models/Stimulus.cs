@@ -17,6 +17,6 @@ namespace ISSProject.Models
 
     public enum StimulusType
     {
-        Image = 0, Video = 1, Sound = 2, Text = 3
+        Image = 0, Video = 1, Sound = 2, Text = 3, Game = 4
     }
 }
