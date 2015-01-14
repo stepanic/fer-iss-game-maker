@@ -40,7 +40,7 @@
         <!--
         Media container
         -->
-        <MediaElement x:Name="VideoContainer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Stretch="UniformToFill" Visibility="Collapsed"/>
+        <MediaElement x:Name="VideoContainer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Stretch="UniformToFill" Visibility="Collapsed" LoadedBehavior="Manual"/>
         <!--
         Text container
         -->
