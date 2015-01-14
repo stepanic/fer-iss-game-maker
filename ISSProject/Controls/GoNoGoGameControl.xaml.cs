@@ -12,14 +12,132 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using ISSProject.Models;
 
-namespace ISSProject.Controls {
+namespace ISSProject.Controls
+{
     /// <summary>
     /// Interaction logic for GoNoGoGameControl.xaml
     /// </summary>
-    public partial class GoNoGoGameControl : UserControl {
-        public GoNoGoGameControl() {
+    public partial class GoNoGoGameControl : UserControl
+    {
+        public bool IsRunning { get; set; }
+
+        private int _currentSection;
+        private GoNoGoResult _gameResult;
+        private DispatcherTimer _dispatcher;
+        private readonly IList<GoNoGoExecutionPlan> _plans = new List<GoNoGoExecutionPlan>();
+        private int _ticks;
+        private const float GreenStimuliChance = 0.8f;
+        public GoNoGoGameControl()
+        {
             InitializeComponent();
         }
+
+        public void Initialize(GoNoGoParameters parameters)
+        {
+            _gameResult = new GoNoGoResult();
+            BuildGamePlan(parameters);
+            // Start timer and dispatcher
+            _dispatcher = new DispatcherTimer();
+
+            _dispatcher.Tick += IntervalTickEvent;
+            _dispatcher.Interval = new TimeSpan(0, 0, 1);
+
+        }
+
+        private void IntervalTickEvent(object sender, EventArgs e)
+        {
+            var elapsedSpan = new TimeSpan(0, 0, _ticks++);
+
+            var question = _plans[_currentSection].Stimulis.FirstOrDefault(x => x.Time == elapsedSpan);
+
+
+
+
+
+
+        }
+
+
+        public void Start()
+        {
+            _ticks = 0;
+            IsRunning = true;
+            _dispatcher.Start();
+        }
+
+        public void Stop()
+        {
+            _dispatcher.Stop();
+            IsRunning = false;
+            _currentSection++;
+        }
+
+
+        private void BuildGamePlan(GoNoGoParameters parameters)
+        {
+            var random = new Random();
+            for (int i = 0; i < parameters.SectionNum; i++)
+            {
+                var stimuliNum = parameters.SectionSamplings[i];
+                var duration = parameters.SectionDurations[i];
+
+
+                var msBeetweenStimuli = (int)(duration.TotalMilliseconds / stimuliNum);
+
+                var plan = new GoNoGoExecutionPlan();
+                for (int j = 0; j < duration.TotalMilliseconds; j += msBeetweenStimuli)
+                {
+
+                    var randomOffset = random.Next(-msBeetweenStimuli / 3, msBeetweenStimuli / 3);
+                    if (randomOffset + msBeetweenStimuli < 0)
+                    {
+                        randomOffset = 0;
+                    }
+
+                    plan.Stimulis.Add(new GoNoGoStimuli()
+                    {
+                        Time = new TimeSpan(0, 0, 0, 0, j + randomOffset),
+                        ShouldPress = !(random.NextDouble() > GreenStimuliChance)
+                    });
+                }
+                _plans.Add(plan);
+
+            }
+        }
+
+        #region Event handling
+        public event GameResultChangedDelegate GameResultChanged;
+
+        protected virtual void OnGameResultChanged(GameResultChangedArgs args)
+        {
+            GameResultChangedDelegate handler = GameResultChanged;
+            if (handler != null) handler(this, args);
+        }
+
+        public delegate void GameResultChangedDelegate(object sender, GameResultChangedArgs args);
+        #endregion
+
+
     }
+
+    public class GameResultChangedArgs
+    {
+        public GoNoGoResult Result { get; set; }
+    }
+
+    public class GoNoGoExecutionPlan
+    {
+        public IList<GoNoGoStimuli> Stimulis { get; set; }
+    }
+
+    public class GoNoGoStimuli
+    {
+        public TimeSpan Time { get; set; }
+        public bool ShouldPress { get; set; }
+    }
+
+
 }
