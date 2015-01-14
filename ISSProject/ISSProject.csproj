@@ -83,6 +83,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GoNoGoParameters.cs" />
+    <Compile Include="Models\GoNoGoResult.cs" />
     <Compile Include="Models\Sound.cs" />
     <Compile Include="Models\Stimulus.cs" />
     <Compile Include="Models\GameContext.cs" />
