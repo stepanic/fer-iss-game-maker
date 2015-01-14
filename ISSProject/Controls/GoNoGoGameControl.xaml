@@ -8,14 +8,14 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <Viewbox>
-            <Ellipse Width="100" Height="100" Fill="#FFE6E6E6" Stroke="Black"/>
+            <Ellipse x:Name="LeftChoiceButton" Width="100" Height="100" Fill="#FFE6E6E6" Stroke="Black" MouseDown="LeftButtonClicked" />
         </Viewbox>
         <Viewbox Grid.Column="2">
-            <Ellipse Width="100" Height="100" Fill="#FFE6E6E6" Stroke="Black"/>
+            <Ellipse x:Name="RightChoiceButton" MouseDown="RightButtonClicked"  Width="100" Height="100" Fill="#FFE6E6E6" Stroke="Black"/>
         </Viewbox>
     </Grid>
 </UserControl>

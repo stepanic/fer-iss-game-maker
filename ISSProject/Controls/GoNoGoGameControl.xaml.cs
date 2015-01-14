@@ -75,7 +75,14 @@ namespace ISSProject.Controls
             _currentSection++;
         }
 
+        private void LeftButtonClicked(object sender, MouseButtonEventArgs e)
+        {
 
+        }
+        private void RightButtonClicked(object sender, MouseButtonEventArgs e)
+        {
+
+        }
         private void BuildGamePlan(GoNoGoParameters parameters)
         {
             var random = new Random();
@@ -100,7 +107,8 @@ namespace ISSProject.Controls
                     plan.Stimulis.Add(new GoNoGoStimuli()
                     {
                         Time = new TimeSpan(0, 0, 0, 0, j + randomOffset),
-                        ShouldPress = !(random.NextDouble() > GreenStimuliChance)
+                        ShouldPress = !(random.NextDouble() > GreenStimuliChance),
+                        RightButtonInFocus = random.NextDouble() > 0.5
                     });
                 }
                 _plans.Add(plan);
@@ -120,6 +128,8 @@ namespace ISSProject.Controls
         public delegate void GameResultChangedDelegate(object sender, GameResultChangedArgs args);
         #endregion
 
+       
+
 
     }
 
@@ -137,6 +147,7 @@ namespace ISSProject.Controls
     {
         public TimeSpan Time { get; set; }
         public bool ShouldPress { get; set; }
+        public bool RightButtonInFocus { get; set; }
     }
 
 
