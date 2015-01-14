@@ -44,5 +44,9 @@
         Text container
         -->
         <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="55" FontFamily="Calibri" Visibility="Collapsed" Height="0" Margin="390,244,221,243" Width="0"/>
+        <!--
+        Go no go container
+        -->
+        <controls:GoNoGoGameControl x:Name="GoGameContainer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Visibility="Collapsed" />
     </Grid>
 </Window>
