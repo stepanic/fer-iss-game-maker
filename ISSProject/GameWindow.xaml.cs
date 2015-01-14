@@ -84,7 +84,7 @@ namespace ISSProject
 
         private void IntervalTickEvent(object sender, EventArgs e)
         {
-            var elapsedSpan = new TimeSpan(0, 0, ++_ticks);
+            var elapsedSpan = new TimeSpan(0, 0, _ticks++);
             // Update time label
             TimeLabel.Text = elapsedSpan.ToString(@"hh\:mm\:ss");
 
@@ -96,7 +96,7 @@ namespace ISSProject
             }
 
             #region End Finished Stimulus
-            var stimulusEndingOnThisTick = _activeStimulus.Where(x => x.EndTme == elapsedSpan);
+            var stimulusEndingOnThisTick = _activeStimulus.Where(x => x.EndTme == elapsedSpan).ToList();
             foreach (var stimulus in stimulusEndingOnThisTick)
             {
                 var guid = stimulus.Guid;
@@ -128,7 +128,7 @@ namespace ISSProject
 
             #region Start New Stimulus
             // Handle new starting stimulus
-            var stimulusStartingOnThisTick = _context.StimulusList.Where(x => x.StartTime == elapsedSpan);
+            var stimulusStartingOnThisTick = _context.StimulusList.Where(x => x.StartTime == elapsedSpan).ToList();
             foreach (var stimulus in stimulusStartingOnThisTick)
             {
                 _activeStimulus.Add(stimulus);
