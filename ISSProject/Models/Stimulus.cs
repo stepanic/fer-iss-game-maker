@@ -8,11 +8,17 @@ namespace ISSProject.Models
 {
     public class Stimulus
     {
+        public string Guid { get; set; }
         public int Priority { get; set; }
         public string Label { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTme { get; set; }
         public StimulusType Type { get; set; }
+
+        public Stimulus()
+        {
+            Guid = System.Guid.NewGuid().ToString();
+        }
     }
 
     public enum StimulusType
