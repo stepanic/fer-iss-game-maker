@@ -44,7 +44,7 @@
         <!--
         Text container
         -->
-        <TextBlock x:Name="TextContainer" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="55" FontFamily="Calibri" Visibility="Collapsed" Height="0" Margin="390,244,221,243" Width="0"/>
+        <TextBlock x:Name="TextContainer" Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="3" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Text="" FontSize="55" Visibility="Collapsed"  FontFamily="Calibri"/>
 
         <!--
         Go no go container
