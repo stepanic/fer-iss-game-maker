@@ -66,11 +66,11 @@ namespace ISSProject.Controls
                 if (_activeQuestion.RightButtonInFocus)
                 {
                     ColorShape(LeftChoiceButton, "#FFE6E6E6");
-                    ColorShape(RightChoiceButton, _activeQuestion.ShouldPress ? "Green" : "Red");
+                    ColorShape(RightChoiceButton, _activeQuestion.ShouldPress ? "GreenYellow" : "Red");
                 }
                 else
                 {
-                    ColorShape(LeftChoiceButton, _activeQuestion.ShouldPress ? "Green" : "Red");
+                    ColorShape(LeftChoiceButton, _activeQuestion.ShouldPress ? "GreenYellow" : "Red");
                     ColorShape(RightChoiceButton, "#FFE6E6E6");
                 }
                 _activeQuestion.TimeShowed = DateTime.Now;

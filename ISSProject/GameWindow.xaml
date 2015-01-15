@@ -65,7 +65,7 @@
         <!--
         Go no go container
         -->
-        <controls:GoNoGoGameControl x:Name="GoGameContainer" Margin="40,40,40,40" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Visibility="Collapsed" />
+        <controls:GoNoGoGameControl x:Name="GoGameContainer" Margin="100,100,100,100" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Visibility="Collapsed" />
            
     </Grid>
 </Window>
