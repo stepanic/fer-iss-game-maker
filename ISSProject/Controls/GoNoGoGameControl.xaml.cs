@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -122,13 +123,22 @@ namespace ISSProject.Controls
                 if (!_activeQuestion.RightButtonInFocus)
                 {
                     if (_activeQuestion.ShouldPress)
+                    {
+                        SystemSounds.Beep.Play();
                         _gameResult.Hits++;
+                    }
                     else
+                    {
                         _gameResult.Errors++;
+                        SystemSounds.Beep.Play();
+
+                    }
                 }
                 else
                 {
                     _gameResult.Errors++;
+                    SystemSounds.Beep.Play();
+
                 }
                 _activeQuestion = null;
                 ColorShape(LeftChoiceButton, "#FFE6E6E6");
@@ -148,13 +158,23 @@ namespace ISSProject.Controls
                 if (_activeQuestion.RightButtonInFocus)
                 {
                     if (_activeQuestion.ShouldPress)
+                    {
                         _gameResult.Hits++;
+                        SystemSounds.Beep.Play();
+
+                    }
                     else
+                    {
                         _gameResult.Errors++;
+                        SystemSounds.Beep.Play();
+
+                    }
                 }
                 else
                 {
                     _gameResult.Errors++;
+                    SystemSounds.Beep.Play();
+
                 }
 
                 _activeQuestion = null;
