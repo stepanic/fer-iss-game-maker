@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using ISSProject.Controls;
 using ISSProject.Models;
 
 namespace ISSProject
@@ -34,6 +35,7 @@ namespace ISSProject
         private readonly IList<Sound> _activeSounds = new List<Sound>();
 
         private int _ticks;
+        private GoNoGoResult _gameResult = new GoNoGoResult();
 
         public GameWindow(GameContext context)
         {
@@ -77,6 +79,7 @@ namespace ISSProject
             InitializeGoNoGame();
             GoGameContainer.GameResultChanged += (o, args) =>
             {
+                _gameResult = args.Result;
                 ErrorsScoreLabel.Text = args.Result.Errors + "";
                 HitsScoreLabel.Text = args.Result.Hits + "";
                 MissesScoreLabel.Text = args.Result.Misses + "";
@@ -204,12 +207,39 @@ namespace ISSProject
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            _dispatcher.Stop();
+            
+
             base.OnClosing(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            OnGameEnded(new GameResultChangedArgs()
+            {
+                Result = _gameResult
+            });
         }
 
         private void ButtonCloseAppClick(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+
+
+
+        #region Event handling
+        public event GameEndedDelegate GameEnded;
+
+        protected virtual void OnGameEnded(GameResultChangedArgs args)
+        {
+            GameEndedDelegate handler = GameEnded;
+            if (handler != null) handler(this, args);
+        }
+
+        public delegate void GameEndedDelegate(object sender, GameResultChangedArgs args);
+        #endregion
     }
 }

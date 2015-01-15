@@ -124,6 +124,17 @@ namespace ISSProject
 
             context.Duration = context.StimulusList.OrderByDescending(x => x.EndTme).Select(x => x.EndTme).First();
             var gameWindow = new GameWindow(context);
+            gameWindow.GameEnded += (o, args) =>
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("Hits: " +  args.Result.Hits);
+                sb.AppendLine("Errors: " + args.Result.Errors);
+                sb.AppendLine("Misses: " + args.Result.Misses);
+                sb.AppendLine("Average reaction time: " + args.Result.AverageReactionTime + "ms");
+
+                MessageBox.Show(sb.ToString(), "Results", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+            };
             gameWindow.Show();
         }
 
@@ -182,5 +193,7 @@ namespace ISSProject
         public string Value { get; set; }
         public int Quantity { get; set; }
         public StimulusType Type { get; set; }
+
+
     }
 }
