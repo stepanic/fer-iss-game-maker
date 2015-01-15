@@ -45,13 +45,13 @@ namespace ISSProject.Controls
             _dispatcher = new DispatcherTimer();
 
             _dispatcher.Tick += IntervalTickEvent;
-            _dispatcher.Interval = new TimeSpan(0, 0, 1);
+            _dispatcher.Interval = new TimeSpan(0, 0, 0,0, 100);
         }
 
         private void IntervalTickEvent(object sender, EventArgs e)
         {
-            var elapsedSpan = new TimeSpan(0, 0, _ticks++);
-            var question = _plans[_currentSection].Stimulis.FirstOrDefault(x => (int)x.Time.TotalSeconds == (int)elapsedSpan.TotalSeconds);
+            var elapsedSpan = new TimeSpan(0, 0, 0,0, 100 * _ticks++);
+            var question = _plans[_currentSection].Stimulis.FirstOrDefault(x => (int)(x.Time.TotalMilliseconds / 100)  == (int)(elapsedSpan.TotalMilliseconds / 100));
 
             if (question != null)
             {
@@ -189,17 +189,20 @@ namespace ISSProject.Controls
             for (int i = 0; i < parameters.SectionNum; i++)
             {
                 var stimuliNum = parameters.SectionSamplings[i];
-                var duration = parameters.SectionDurations[i];
+                var duration = parameters.SectionDurations[i].Add(new TimeSpan(0,0,-1));
 
-
-                var msBeetweenStimuli = (int)(duration.TotalMilliseconds / stimuliNum);
+                var msBeetweenStimuli = (int)(duration.TotalMilliseconds/ (stimuliNum));
 
                 var plan = new GoNoGoExecutionPlan();
                 for (int j = 0; j < duration.TotalMilliseconds; j += msBeetweenStimuli)
                 {
 
-                    var randomOffset = random.Next(-msBeetweenStimuli / 3, msBeetweenStimuli / 3);
+                    var randomOffset = random.Next(-msBeetweenStimuli / 4, msBeetweenStimuli / 4);
                     if (randomOffset + msBeetweenStimuli < 0)
+                    {
+                        randomOffset = 0;
+                    }
+                    if (j + msBeetweenStimuli >= duration.TotalMilliseconds)
                     {
                         randomOffset = 0;
                     }
