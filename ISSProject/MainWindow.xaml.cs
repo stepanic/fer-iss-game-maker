@@ -37,7 +37,53 @@ namespace ISSProject
 
         private GameContext CreateGameContextFromTimeline()
         {
+            var path =
+                System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+
             var context = new GameContext();
+            context.Duration = new TimeSpan(0,1,0);
+            context.StimulusList.Add(new Stimulus()
+            {
+                StartTime = new TimeSpan(0,0,0),
+                EndTme =  new TimeSpan(0,0,10),
+                Value = path + @"\data\video.mp4",
+                Type = StimulusType.Video
+            });
+            context.StimulusList.Add(new Stimulus()
+            {
+                StartTime = new TimeSpan(0, 0, 10),
+                EndTme = new TimeSpan(0, 0, 12),
+                Value = "2 sekunde blikakvog teksta pa igra 10 sekundi",
+                Type = StimulusType.Text
+            });
+            context.StimulusList.Add(new Stimulus()
+            {
+                StartTime = new TimeSpan(0, 0, 12),
+                EndTme = new TimeSpan(0, 0, 22),
+                Quantity = 10,
+                Type = StimulusType.Game
+            });
+            context.StimulusList.Add(new Stimulus()
+            {
+                StartTime = new TimeSpan(0, 0, 22),
+                EndTme = new TimeSpan(0, 0, 26),
+                Value = path +@"\data\image.jpg",
+                Type = StimulusType.Image
+            });
+            context.StimulusList.Add(new Stimulus()
+            {
+                StartTime = new TimeSpan(0, 0, 26),
+                EndTme = new TimeSpan(0, 0, 36),
+                Quantity = 10,
+                Type = StimulusType.Game
+            });
+            context.StimulusList.Add(new Stimulus()
+            {
+                StartTime = new TimeSpan(0, 0, 26),
+                EndTme = new TimeSpan(0, 0, 36),
+                Value = path + @"\data\audio.wav",
+                Type = StimulusType.Sound
+            });
             return context;
         }
     }
