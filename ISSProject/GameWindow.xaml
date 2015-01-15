@@ -32,15 +32,15 @@
         </Rectangle>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-            <TextBlock Margin="15,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Hits</TextBlock>
-            <TextBlock x:Name="HitsScoreLabel" Margin="5,1,20,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="red">0</TextBlock>
-            <TextBlock Margin="5,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Errors</TextBlock>
-            <TextBlock x:Name="ErrorsScoreLabel" Margin="5,1,20,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="red">0</TextBlock>
-            <TextBlock Margin="5,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Misses</TextBlock>
-            <TextBlock x:Name="MissesScoreLabel" Margin="5,1,20,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="red">0</TextBlock>
-            <TextBlock Margin="5,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Reaction</TextBlock>
-            <TextBlock x:Name="ReactionScoreLabel" Margin="5,1,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="red">0</TextBlock>
-            <TextBlock Margin="2,1,10,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="red">ms</TextBlock>
+            <TextBlock Margin="15,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Hits:</TextBlock>
+            <TextBlock x:Name="HitsScoreLabel" Margin="5,1,20,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI" Foreground="DarkSlateGray">0</TextBlock>
+            <TextBlock Margin="5,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Errors:</TextBlock>
+            <TextBlock x:Name="ErrorsScoreLabel" Margin="5,1,20,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI " Foreground="DarkSlateGray">0</TextBlock>
+            <TextBlock Margin="5,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Misses:</TextBlock>
+            <TextBlock x:Name="MissesScoreLabel" Margin="5,1,20,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI " Foreground="DarkSlateGray">0</TextBlock>
+            <TextBlock Margin="5,0,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light" Foreground="Black">Reaction(avg):</TextBlock>
+            <TextBlock x:Name="ReactionScoreLabel" Margin="5,1,0,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI " Foreground="DarkSlateGray">0</TextBlock>
+            <TextBlock Margin="0,1,10,0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI" Foreground="DarkSlateGray">ms</TextBlock>
 
 
         </StackPanel>
