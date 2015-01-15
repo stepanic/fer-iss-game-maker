@@ -26,10 +26,10 @@ namespace ISSProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ObservableCollection<ITimeLineDataItem> _mainTimelineData = new ObservableCollection<ITimeLineDataItem>();
-        private readonly ObservableCollection<ITimeLineDataItem> _secondaryTimelineData = new ObservableCollection<ITimeLineDataItem>();
+        public readonly ObservableCollection<ITimeLineDataItem> MainTimelineData = new ObservableCollection<ITimeLineDataItem>();
+        public readonly ObservableCollection<ITimeLineDataItem> SecondaryTimelineData = new ObservableCollection<ITimeLineDataItem>();
 
-        private static readonly DateTime ReferentDate = new DateTime(2000,1,1,0,0,0);
+        public static readonly DateTime ReferentDate = new DateTime(2000,1,1,0,0,0);
 
         public MainWindow()
         {
@@ -37,7 +37,7 @@ namespace ISSProject
 
             var path = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 
-            _mainTimelineData.Add(new TimelineData()
+            MainTimelineData.Add(new TimelineData()
             {
                 StartTime = ReferentDate,
                 EndTime = ReferentDate.AddSeconds(10),
@@ -45,7 +45,7 @@ namespace ISSProject
                 Type = StimulusType.Video
 
             });
-            _mainTimelineData.Add(new TimelineData()
+            MainTimelineData.Add(new TimelineData()
             {
                 StartTime = ReferentDate.AddSeconds(10),
                 EndTime = ReferentDate.AddSeconds(12),
@@ -53,14 +53,14 @@ namespace ISSProject
                 Type = StimulusType.Text
 
             });
-            _mainTimelineData.Add(new TimelineData()
+            MainTimelineData.Add(new TimelineData()
             {
                 StartTime = ReferentDate.AddSeconds(12),
                 EndTime = ReferentDate.AddSeconds(22),
                 Quantity = 10,
                 Type = StimulusType.Game
             });
-            _mainTimelineData.Add(new TimelineData()
+            MainTimelineData.Add(new TimelineData()
             {
                 StartTime = ReferentDate.AddSeconds(22),
                 EndTime = ReferentDate.AddSeconds(26),
@@ -68,14 +68,14 @@ namespace ISSProject
                 Type = StimulusType.Image
 
             });
-            _mainTimelineData.Add(new TimelineData()
+            MainTimelineData.Add(new TimelineData()
             {
                 StartTime = ReferentDate.AddSeconds(26),
                 EndTime = ReferentDate.AddSeconds(36),
                 Quantity = 10,
                 Type = StimulusType.Game
             });
-            _secondaryTimelineData.Add(new TimelineData()
+            SecondaryTimelineData.Add(new TimelineData()
             {
                 StartTime = ReferentDate.AddSeconds(26),
                 EndTime = ReferentDate.AddSeconds(30),
@@ -87,8 +87,8 @@ namespace ISSProject
             MainTimeline.StartDate = ReferentDate;
             SecondaryTimeline.StartDate = ReferentDate;
 
-            MainTimeline.Items = _mainTimelineData;
-            SecondaryTimeline.Items = _secondaryTimelineData;
+            MainTimeline.Items = MainTimelineData;
+            SecondaryTimeline.Items = SecondaryTimelineData;
 
 
         }
@@ -97,7 +97,7 @@ namespace ISSProject
         {
             var context = new GameContext();
 
-            foreach (var stimuli in _mainTimelineData.Union(_secondaryTimelineData))
+            foreach (var stimuli in MainTimelineData.Union(SecondaryTimelineData))
             {
                 var st = stimuli as TimelineData;
                 if (st == null) continue;
@@ -144,10 +144,17 @@ namespace ISSProject
                 var result = MessageBox.Show("Are you sure you would like to delete clicked stimuli?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _mainTimelineData.Remove(x);
-                    _secondaryTimelineData.Remove(x);
+                    MainTimelineData.Remove(x);
+                    SecondaryTimelineData.Remove(x);
                 }
             } 
+        }
+
+        private void AddStimuliClick(object sender, RoutedEventArgs e)
+        {
+
+            var win = new AddStimuli(this);
+            win.ShowDialog();
         }
     }
 
