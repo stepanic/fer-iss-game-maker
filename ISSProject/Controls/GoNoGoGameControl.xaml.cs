@@ -99,9 +99,12 @@ namespace ISSProject.Controls
         {
             if (_activeQuestion != null)
             {
-                _activeQuestion = null;
-                _gameResult.Misses++;
-                OnGameResultChanged(new GameResultChangedArgs() { Result = _gameResult });
+                if ((DateTime.Now - _activeQuestion.TimeShowed).TotalMilliseconds > 300)
+                {
+                    _activeQuestion = null;
+                    _gameResult.Misses++;
+                    OnGameResultChanged(new GameResultChangedArgs() {Result = _gameResult});
+                }
             }
             _dispatcher.Stop();
             IsRunning = false;
