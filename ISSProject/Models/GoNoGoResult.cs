@@ -16,7 +16,7 @@ namespace ISSProject.Models
         /// </summary>
         public IList<int> ReactionTimes { get; set; }
 
-        public double AverageReactionTime { get { return ReactionTimes.Average(); } }
+        public double AverageReactionTime { get { return Math.Round(ReactionTimes.Average(),2); } }
 
 
         public GoNoGoResult()
