@@ -54,7 +54,7 @@ namespace ISSProject.Controls
 
             if (question != null)
             {
-                if (_activeQuestion != null)
+                if (_activeQuestion != null && _activeQuestion.ShouldPress)
                 {
                     // Mark unanswered question
                     _gameResult.Misses++;
