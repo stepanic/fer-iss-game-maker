@@ -41,7 +41,7 @@ namespace ISSProject
 
             InitializeComponent();
             this.Loaded += GameStarted;
-
+            
 
         }
 
@@ -73,6 +73,16 @@ namespace ISSProject
             }
             this.WindowState = WindowState.Maximized;
 
+            // Initialize go-no-go game
+            InitializeGoNoGame();
+            GoGameContainer.GameResultChanged += (o, args) =>
+            {
+                ErrorsScoreLabel.Text = args.Result.Errors + "";
+                HitsScoreLabel.Text = args.Result.Hits + "";
+                MissesScoreLabel.Text = args.Result.Misses + "";
+                ReactionScoreLabel.Text = args.Result.AverageReactionTime + "";
+            };
+
             // Start timer and dispatcher
             _dispatcher = new DispatcherTimer();
 
@@ -80,6 +90,23 @@ namespace ISSProject
             _dispatcher.Interval = new TimeSpan(0, 0, 1);
 
             _dispatcher.Start();
+        }
+
+        private void InitializeGoNoGame()
+        {
+            var gameStimulus = _context.StimulusList.Where(x => x.Type == StimulusType.Game).ToList();
+
+            var parameters = new GoNoGoParameters()
+            {
+                SectionNum = gameStimulus.Count
+            };
+            foreach (var section in gameStimulus)
+            {
+                parameters.SectionDurations.Add(section.EndTme - section.StartTime);
+                parameters.SectionSamplings.Add(section.Quantity);
+            }
+            
+            GoGameContainer.Initialize(parameters);
         }
 
         private void IntervalTickEvent(object sender, EventArgs e)
@@ -121,6 +148,7 @@ namespace ISSProject
                         break;
                     case StimulusType.Game:
                         GoGameContainer.Visibility = Visibility.Collapsed;
+                        GoGameContainer.Stop();
                         break;
                 }
             }
@@ -136,30 +164,32 @@ namespace ISSProject
                 switch (stimulus.Type)
                 {
                     case StimulusType.Image:
-                        ImageContainer.Source = new BitmapImage(new Uri(stimulus.Label));
+                        ImageContainer.Source = new BitmapImage(new Uri(stimulus.Value));
                         ImageContainer.Visibility = Visibility.Visible;
                         break;
                     case StimulusType.Sound:
 
                         var mediaPlayer = new MediaPlayer();
-                        mediaPlayer.Open(new Uri(stimulus.Label));
+                        mediaPlayer.Open(new Uri(stimulus.Value));
                         _activeSounds.Add(new Sound() { Player = mediaPlayer, StimulusGuid = stimulus.Guid });
                         mediaPlayer.Play();
 
                         break;
                     case StimulusType.Video:
-                        VideoContainer.Source = new Uri(stimulus.Label);
+                        VideoContainer.Source = new Uri(stimulus.Value);
                         VideoContainer.Visibility = Visibility.Visible;
                         VideoContainer.Play();
 
                         break;
                     case StimulusType.Text:
-                        TextContainer.Text = stimulus.Label;
+                        TextContainer.Text = stimulus.Value;
                         TextContainer.Visibility = Visibility.Visible;
 
                         break;
                     case StimulusType.Game:
                         GoGameContainer.Visibility = Visibility.Visible;
+                        GoGameContainer.Start();
+
                         break;
                 }
             }

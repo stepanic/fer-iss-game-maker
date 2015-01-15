@@ -29,6 +29,7 @@ namespace ISSProject.Controls
         private DispatcherTimer _dispatcher;
         private readonly IList<GoNoGoExecutionPlan> _plans = new List<GoNoGoExecutionPlan>();
         private int _ticks;
+        private GoNoGoStimuli _activeQuestion;
         private const float GreenStimuliChance = 0.8f;
         public GoNoGoGameControl()
         {
@@ -44,25 +45,51 @@ namespace ISSProject.Controls
 
             _dispatcher.Tick += IntervalTickEvent;
             _dispatcher.Interval = new TimeSpan(0, 0, 1);
-
         }
 
         private void IntervalTickEvent(object sender, EventArgs e)
         {
             var elapsedSpan = new TimeSpan(0, 0, _ticks++);
+            var question = _plans[_currentSection].Stimulis.FirstOrDefault(x => (int)x.Time.TotalSeconds == (int)elapsedSpan.TotalSeconds);
 
-            var question = _plans[_currentSection].Stimulis.FirstOrDefault(x => x.Time == elapsedSpan);
+            if (question != null)
+            {
+                if (_activeQuestion != null)
+                {
+                    // Mark unanswered question
+                    _gameResult.Misses++;
+                    OnGameResultChanged(new GameResultChangedArgs() { Result = _gameResult });
 
-
-
-
-
-
+                }
+                _activeQuestion = question;
+                // Set colors
+                if (_activeQuestion.RightButtonInFocus)
+                {
+                    ColorShape(LeftChoiceButton, "#FFE6E6E6");
+                    ColorShape(RightChoiceButton, _activeQuestion.ShouldPress ? "Green" : "Red");
+                }
+                else
+                {
+                    ColorShape(LeftChoiceButton, _activeQuestion.ShouldPress ? "Green" : "Red");
+                    ColorShape(RightChoiceButton, "#FFE6E6E6");
+                }
+                _activeQuestion.TimeShowed = DateTime.Now;
+            }
         }
 
+        private void ColorShape(Shape circle, string colorCode)
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            var brush = (Brush)converter.ConvertFromString(colorCode);
+            circle.Fill = brush;
+        }
 
         public void Start()
         {
+            if (_currentSection >= _plans.Count)
+            {
+                return;
+            }
             _ticks = 0;
             IsRunning = true;
             _dispatcher.Start();
@@ -70,18 +97,68 @@ namespace ISSProject.Controls
 
         public void Stop()
         {
+            if (_activeQuestion != null)
+            {
+                _activeQuestion = null;
+                _gameResult.Misses++;
+                OnGameResultChanged(new GameResultChangedArgs() { Result = _gameResult });
+            }
             _dispatcher.Stop();
             IsRunning = false;
             _currentSection++;
+            
         }
 
         private void LeftButtonClicked(object sender, MouseButtonEventArgs e)
         {
+            if (_activeQuestion != null)
+            {
+                var elapsedSpan = new TimeSpan(0, 0, _ticks);
+                _gameResult.ReactionTimes.Add((int)(DateTime.Now - _activeQuestion.TimeShowed).TotalMilliseconds);
 
+                if (!_activeQuestion.RightButtonInFocus)
+                {
+                    if (_activeQuestion.ShouldPress)
+                        _gameResult.Hits++;
+                    else
+                        _gameResult.Errors++;
+                }
+                else
+                {
+                    _gameResult.Errors++;
+                }
+                _activeQuestion = null;
+                ColorShape(LeftChoiceButton, "#FFE6E6E6");
+                ColorShape(RightChoiceButton, "#FFE6E6E6");
+                OnGameResultChanged(new GameResultChangedArgs() { Result = _gameResult });
+            }
         }
         private void RightButtonClicked(object sender, MouseButtonEventArgs e)
         {
+       
 
+            if (_activeQuestion != null)
+            {
+                var elapsedSpan = new TimeSpan(0, 0, _ticks);
+                _gameResult.ReactionTimes.Add((int)(DateTime.Now - _activeQuestion.TimeShowed).TotalMilliseconds);
+
+                if (_activeQuestion.RightButtonInFocus)
+                {
+                    if (_activeQuestion.ShouldPress)
+                        _gameResult.Hits++;
+                    else
+                        _gameResult.Errors++;
+                }
+                else
+                {
+                    _gameResult.Errors++;
+                }
+
+                _activeQuestion = null;
+                ColorShape(LeftChoiceButton, "#FFE6E6E6");
+                ColorShape(RightChoiceButton, "#FFE6E6E6");
+                OnGameResultChanged(new GameResultChangedArgs() { Result = _gameResult });
+            }
         }
         private void BuildGamePlan(GoNoGoParameters parameters)
         {
@@ -128,7 +205,7 @@ namespace ISSProject.Controls
         public delegate void GameResultChangedDelegate(object sender, GameResultChangedArgs args);
         #endregion
 
-       
+
 
 
     }
@@ -141,6 +218,11 @@ namespace ISSProject.Controls
     public class GoNoGoExecutionPlan
     {
         public IList<GoNoGoStimuli> Stimulis { get; set; }
+
+        public GoNoGoExecutionPlan()
+        {
+            Stimulis = new List<GoNoGoStimuli>();
+        }
     }
 
     public class GoNoGoStimuli
@@ -148,6 +230,7 @@ namespace ISSProject.Controls
         public TimeSpan Time { get; set; }
         public bool ShouldPress { get; set; }
         public bool RightButtonInFocus { get; set; }
+        public DateTime TimeShowed { get; set; }
     }
 
 
