@@ -9,8 +9,8 @@ namespace ISSProject.Models
     public class Stimulus
     {
         public string Guid { get; set; }
-        public int Priority { get; set; }
-        public string Label { get; set; }
+        public int Quantity { get; set; }
+        public string Value { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTme { get; set; }
         public StimulusType Type { get; set; }
