@@ -4,7 +4,7 @@
         xmlns:tt="clr-namespace:TimeLineTool;assembly=TimeLineTool"
         xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         xmlns:issProject="clr-namespace:ISSProject"
-        Title="ISS Project Configuration" ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
+        Title="ISS Project Configuration"   WindowState="Maximized">
     <Window.Resources>
         <Color R="255"
                G="255"
@@ -115,7 +115,7 @@
                 <ColumnDefinition Width="184*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <Button  Background="White" Click="StartTheTestClick" Grid.Column="0">
+            <Button  Background="White" Click="AddStimuliClick" Grid.Column="0">
                 <TextBlock FontSize="20">Add Stimuli</TextBlock>
             </Button>
             <Button  Background="White" Click="StartTheTestClick" Grid.Column="1">
